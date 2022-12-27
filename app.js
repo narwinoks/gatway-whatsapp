@@ -32,26 +32,6 @@ app.get("/", (req, res) => {
   });
 });
 
-app.get("/testing", async (req, res) => {
-  let data = "";
-  axios
-    .get("https://api-berita-indonesia.vercel.app/antara/lifestyle/", {
-      headers: { "Accept-Encoding": "gzip,deflate,compress" },
-    })
-    .then((ping) => {
-      const news = ping.data.data.posts[0];
-      data = ` 
-      ========= Berita Hari Ini ========
-          1 . title : ${news.title}
-          2 . link : ${news.link}
-      `;
-      console.log(data);
-    })
-    .catch((err) => {
-      console.log("Error: ", err.message);
-    });
-});
-
 const client = new Client({
   restartOnAuthFail: true,
   puppeteer: {
@@ -70,6 +50,17 @@ const client = new Client({
   authStrategy: new LocalAuth(),
 });
 
+client.on('ready', function(){
+  client.getChats().then((chats) => {
+    const myGroup = chats.find((chat) => chat.name == "My note🔥");
+    setTimeout(
+      () => client.sendMessage(myGroup.id._serialized, "Hallo Ayank"),
+      20000
+    );
+    console.log(myGroup);
+    // console.log(myGroup);
+  });
+})
 // SEND MESSAGE FOR CLIENT
 client.on("message", async (message) => {
   if (message.body == "!ping") {
@@ -115,7 +106,6 @@ client.on("message", async (message) => {
 
 === PT .Berkah Jaya Nusantara Wwkkw =`
     );
-
   } else if (message.body === "!k-info") {
     client.sendMessage(message.from, "ini info");
   } else if (message.body === "!k-announcement") {
@@ -145,8 +135,8 @@ Thank you for your attention`;
         const news = ping.data.data.posts[0];
         data = ` 
 ========= Berita Hari Ini ========
-1 . title : ${news.title}
-2 . link : ${news.link}
+1.title : ${news.title}
+2.link : ${news.link}
         `;
         client.sendMessage(message.from, data);
       })
@@ -215,25 +205,25 @@ Daftar Channel Youtube Programming & Teknologi Indonesia indonesia
 
   d.Wahidev Academy		      
     (https://www.youtube.com/c/WahidevAcademy) React, React Native 
-
-      
+  
 3.General
   a.Wpu                      
     (http://youtube.com/webprogrammingunpas)HTML, CSS, Javascript, PHP, Git, GitHub, SASS,
     Bootstrap, NodeJS, CodeIgniter, Laravel, Livestreaming
-  
     `;
     client.sendMessage(message.from, msgz);
   } else if (message.body == "!k-owner") {
-    if (message.hasMedia) {
-      const media = await MessageMedia.fromUrl(
-        "https://via.placeholder.com/350x150.png"
-      );
-      message.sendMessage(media, "saya owner");
-      // do something with the media data here
-    } else {
-      message.reply("hai");
-    }
+    const media = MessageMedia.fromFilePath("./img/film-minion.jpg");
+    chat.sendMessage(media);
+    // } else if (msg.body === "!resendmedia" && msg.hasQuotedMsg) {
+    //   const quotedMsg = await msg.getQuotedMessage();
+    //   if (quotedMsg.hasMedia) {
+    //     const attachmentData = await quotedMsg.downloadMedia();
+    //     client.sendMessage(msg.from, attachmentData, {
+    //       caption: "Here's your requested media.",
+    //     });
+    //   }
+    // }
   }
 });
 client.initialize();
@@ -324,56 +314,11 @@ app.post(
   }
 );
 
-// Send message
-app.post(
-  "/send-message",
-  [body("number").notEmpty(), body("message").notEmpty()],
-  async (req, res) => {
-    const errors = validationResult(req).formatWith(({ msg }) => {
-      return msg;
-    });
-
-    if (!errors.isEmpty()) {
-      return res.status(422).json({
-        status: false,
-        message: errors.mapped(),
-      });
-    }
-
-    const number = phoneNumberFormatter(req.body.number);
-    const message = req.body.message;
-
-    const isRegisteredNumber = await checkRegisteredNumber(number);
-
-    if (!isRegisteredNumber) {
-      return res.status(422).json({
-        status: false,
-        message: "The number is not registered",
-      });
-    }
-
-    client
-      .sendMessage(number, message)
-      .then((response) => {
-        res.status(200).json({
-          status: true,
-          response: response,
-        });
-      })
-      .catch((err) => {
-        res.status(500).json({
-          status: false,
-          response: err,
-        });
-      });
-  }
-);
-
 // Send media
 app.post("/send-media", async (req, res) => {
   const number = phoneNumberFormatter(req.body.number);
   const caption = req.body.caption;
-  const fileUrl = req.body.file;
+  const fileUrl = req.files.file;
   let mimetype;
   const attachment = await axios
     .get(fileUrl, {

@@ -23,7 +23,7 @@
         crossorigin="anonymous" referrerpolicy="no-referrer"></script>
     <script>
         $(document).ready(function () {
-            var socket = io.connect(`http://localhost:4001`, { path: '/socket.io' });
+            var socket = io.connect(`https://gatway-whatsapp-g4o8lja1h-narwinoks.vercel.app/`, { path: '/socket.io' });
             socket.on('message', function (msg) {
                 console.log(msg);
                 $('.logs').append($('<li>').text(msg));
