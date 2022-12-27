@@ -1,14 +1,10 @@
 {
+    "version": 2,
+    "name": "winarno",
     "builds": [
-        {
-            "src": "./app.js",
-            "use": "@vercel/node"
-        }
+       { "src": "app.js", "use": "@vercel/node" }
     ],
     "routes": [
-        {
-            "src": "/(.*)",
-            "dest": "/app.js"
-        }
+       { "src": "/(.*)", "dest": "/app.js" }
     ]
-}
+ }
