@@ -10,21 +10,21 @@ const app = express();
 const server = http.createServer(app);
 const io = socketIO(server);
 const axios = require("axios");
-const fileUpload = require("express-fileupload");
+// const fileUpload = require("express-fileupload");
 const bodyParser = require("body-parser");
 const multer = require("multer");
-const upload = multer({ dest: "uploads/" });
+// const upload = multer({ dest: "uploads/" });
 const mime = require("mime-types");
 const https = require("https");
 
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: true }));
 
-app.use(
-  fileUpload({
-    debug: false,
-  })
-);
+// app.use(
+//   fileUpload({
+//     debug: false,
+//   })
+// );
 
 app.get("/", (req, res) => {
   res.sendFile("index.html", {
