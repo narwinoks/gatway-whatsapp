@@ -87,7 +87,7 @@ client.on("message", async (message) => {
     });
   } else if (message.body === "!test") {
     client.sendMessage(message.from, "test");
-  } else if (message.body === "!lis-command") {
+  } else if (message.body === "!list-command") {
     message.reply(
       `
 ==== DAFTAR PERINTAH BOT ====
