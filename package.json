@@ -7,10 +7,10 @@
     "node": "14.x"
   },
   "scripts": {
-    "start" :"node app.js",
-    "dev": "node app.js",
+    "start" :"node index.js",
+    "dev": "node index.js",
     "test": "echo \"Error: no test specified\" && exit 1",
-    "build" :"node app.js"
+    "build" :"node index.js"
   },
   "repository": {
     "type": "git",

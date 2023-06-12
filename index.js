@@ -41,8 +41,6 @@ client.on("ready", function () {
       () => client.sendMessage(myGroup.id._serialized, "Hallo Ayank"),
       20000
     );
-    console.log(myGroup);
-    // console.log(myGroup);
   });
 });
 // SEND MESSAGE FOR CLIENT
@@ -193,8 +191,7 @@ Daftar Channel Youtube Programming & Teknologi Indonesia indonesia
 3.General
   a.Wpu                      
     (http://youtube.com/webprogrammingunpas)HTML, CSS, Javascript, PHP, Git, GitHub, SASS,
-    Bootstrap, NodeJS, CodeIgniter, Laravel, Livestreaming
-    `;
+    Bootstrap, NodeJS, CodeIgniter, Laravel, Livestreaming`;
     client.sendMessage(message.from, msgz);
   } else if (message.body == "!k-owner") {
     const media = MessageMedia.fromFilePath("./img/film-minion.jpg");
